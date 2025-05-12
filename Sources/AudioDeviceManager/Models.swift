@@ -115,6 +115,15 @@ extension AudioDevice {
         "{\"name\": \"\(name)\", \"type\": \"\(type.rawValue)\", \"id\": \"\(id)\", \"uid\": \"\(uid)\"}"
     }
   }
+
+  /// Makes the device the default audio device
+  /// - Parameters:
+  ///   - type: The type of device to set
+  public func makeDefault(for type: AudioDeviceType) async throws -> AudioDevice {
+    let audioManger = AudioDeviceManager.init()
+    return try await audioManger.setDefaultDevice(for: self.id, type: type)
+  }
+
   public func setVolume(level: Level) {
     var propertyAddress = createPropertyAddress(
       selector: kAudioDevicePropertyVolumeScalar, scope: self.type.scope)
