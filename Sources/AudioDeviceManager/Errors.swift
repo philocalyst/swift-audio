@@ -11,12 +11,15 @@ public enum AudioDeviceError: Error, LocalizedError {
   case failedToGetDeviceUID(AudioDeviceID)
   case failedToGetMuteStatus(AudioDeviceID)
   case failedToSetMuteStatus(AudioDeviceID, MuteAction, OSStatus)
+  case failedToSetVolume(AudioDeviceID, OSStatus)
   case invalidDeviceType
   case invalidDeviceID(String)
   case operationNotSupported(String)
 
   public var errorDescription: String? {
     switch self {
+    case .failedToSetVolume(let deviceID, let status):
+      return "Failed to set device \(deviceID) volume. Error: \(status)"
     case .deviceNotFound(let name):
       return "Could not find audio device: \(name)"
     case .failedToGetDeviceList:
