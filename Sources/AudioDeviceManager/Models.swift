@@ -124,7 +124,7 @@ extension AudioDevice {
     return try await audioManger.setDefaultDevice(for: self.id, type: type)
   }
 
-  public func setVolume(level: Level) -> UInt8 {
+  public func setVolume(level: Level) async throws -> Int8 {
     var propertyAddress = createPropertyAddress(
       selector: kAudioDevicePropertyVolumeScalar, scope: self.type.scope)
 
@@ -146,6 +146,6 @@ extension AudioDevice {
       throw AudioDeviceError.failedToSetVolume(self.id, status)
     }
 
-    return volume
+    return level.value
   }
 }
