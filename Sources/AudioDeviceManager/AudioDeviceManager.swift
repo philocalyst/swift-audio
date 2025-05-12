@@ -30,7 +30,7 @@ public class AudioDeviceManager: AudioDeviceManaging {
   /// - Parameter type: The type of audio device to get
   /// - Returns: The currently selected audio device
   public func getCurrentDevice(type: AudioDeviceType) async throws -> AudioDevice {
-    let propertyAddress = createPropertyAddress(selector: type.selector)
+    var propertyAddress = createPropertyAddress(selector: type.selector)
     var deviceID = AudioDeviceID()
     var propertySize = UInt32(MemoryLayout<AudioDeviceID>.size)
 
@@ -231,7 +231,7 @@ public class AudioDeviceManager: AudioDeviceManaging {
     } else {
       let currentDevice = try await getCurrentDevice(type: type)
 
-      let propertyAddress = createPropertyAddress(
+      var propertyAddress = createPropertyAddress(
         selector: kAudioDevicePropertyMute,
         scope: type.scope
       )
@@ -310,7 +310,7 @@ public class AudioDeviceManager: AudioDeviceManaging {
   /// - Throws: An error if retrieving the name fails
   private func getDeviceName(deviceID: AudioDeviceID) throws -> String {
     var propertyAddress = createPropertyAddress(selector: kAudioDevicePropertyDeviceNameCFString)
-    var deviceName: CFString = "" as CFString
+    var deviceName: CFString = "" as CFString  // Not important to us
     var propertySize = UInt32(MemoryLayout<CFString>.size)
 
     let status = AudioObjectGetPropertyData(
@@ -335,7 +335,7 @@ public class AudioDeviceManager: AudioDeviceManaging {
   /// - Throws: An error if retrieving the UID fails
   private func getDeviceUID(deviceID: AudioDeviceID) throws -> String {
     var propertyAddress = createPropertyAddress(selector: kAudioDevicePropertyDeviceUID)
-    var deviceUID: CFString = "" as CFString
+    var deviceUID: CFString = "" as CFString  // Not important to us
     var propertySize = UInt32(MemoryLayout<CFString>.size)
 
     let status = AudioObjectGetPropertyData(
@@ -358,7 +358,7 @@ public class AudioDeviceManager: AudioDeviceManaging {
   /// - Parameter deviceID: The device ID to check
   /// - Returns: True if the device is an input device, false otherwise
   private func isInputDevice(deviceID: AudioDeviceID) -> Bool {
-    let propertyAddress = createPropertyAddress(
+    var propertyAddress = createPropertyAddress(
       selector: kAudioDevicePropertyStreams,
       scope: kAudioDevicePropertyScopeInput
     )
@@ -379,7 +379,7 @@ public class AudioDeviceManager: AudioDeviceManaging {
   /// - Parameter deviceID: The device ID to check
   /// - Returns: True if the device is an output device, false otherwise
   private func isOutputDevice(deviceID: AudioDeviceID) -> Bool {
-    let propertyAddress = createPropertyAddress(
+    var propertyAddress = createPropertyAddress(
       selector: kAudioDevicePropertyStreams,
       scope: kAudioDevicePropertyScopeOutput
     )
@@ -400,7 +400,7 @@ public class AudioDeviceManager: AudioDeviceManaging {
   /// - Parameter type: The type of devices to retrieve
   /// - Returns: An array of audio devices
   private func getAllDevices(ofType type: AudioDeviceType) async throws -> [AudioDevice] {
-    let propertyAddress = createPropertyAddress(selector: kAudioHardwarePropertyDevices)
+    var propertyAddress = createPropertyAddress(selector: kAudioHardwarePropertyDevices)
     var propertySize: UInt32 = 0
 
     var status = AudioObjectGetPropertyDataSize(
