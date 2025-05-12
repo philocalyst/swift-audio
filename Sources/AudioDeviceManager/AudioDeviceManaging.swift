@@ -89,10 +89,12 @@ extension OSStatus {
     var result: String = ""
     for i in 0..<4 {
       let unichar = UnicodeScalar((Int(status) >> (errorLen - 1 - i) * 8) & 0xff)
-      if unichar.isASCII && !unichar.properties.isControl {
-        result.unicodeScalars.append(unichar)
-      } else {
-        return "Error code: \(status)"
+      if let scalar = unichar {
+        if scalar.isASCII && !scalar.properties.isBidiControl {
+          result.unicodeScalars.append(scalar)
+        } else {
+          return "Error code: \(status)"
+        }
       }
     }
 
