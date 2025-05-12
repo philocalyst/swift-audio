@@ -130,6 +130,10 @@ public class AudioDeviceManager: AudioDeviceManaging {
     return try await setDefaultDevice(byID: device.id, type: type)
   }
 
+  public func jackConnected() throws -> Bool {
+    return kAudioDevicePropertyJackIsConnected != 0
+  }
+
   /// Sets the default audio device by a substring of its UID
   /// - Parameters:
   ///   - uidSubstring: A substring of the device UID
