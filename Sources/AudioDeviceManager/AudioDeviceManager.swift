@@ -59,23 +59,12 @@ public class AudioDeviceManager: AudioDeviceManaging {
     )
   }
 
-  /// Sets the default audio device
-  /// - Parameters:
-  ///   - device: The device to set as default
-  ///   - type: The type of device to set
-  /// - Returns: The newly set device
-  public func setDefaultDevice(_ device: AudioDevice, type: AudioDeviceType) async throws
-    -> AudioDevice
-  {
-    return try await setDefaultDevice(byID: device.id, type: type)
-  }
-
   /// Sets the default audio device by its ID
   /// - Parameters:
   ///   - deviceID: The ID of the device to set as default
   ///   - type: The type of device to set
   /// - Returns: The newly set device
-  public func setDefaultDevice(byID deviceID: AudioDeviceID, type: AudioDeviceType) async throws
+  public func setDefaultDevice(for deviceID: AudioDeviceID, type: AudioDeviceType) async throws
     -> AudioDevice
   {
     var propertyAddress = createPropertyAddress(selector: type.selector)
@@ -127,7 +116,7 @@ public class AudioDeviceManager: AudioDeviceManaging {
       throw AudioDeviceError.deviceNotFound(name)
     }
 
-    return try await setDefaultDevice(byID: device.id, type: type)
+    return try await setDefaultDevice(for: device.id, type: type)
   }
 
   public func jackConnected() throws -> Bool {
@@ -148,7 +137,7 @@ public class AudioDeviceManager: AudioDeviceManaging {
       throw AudioDeviceError.deviceNotFound("with UID containing \(uidSubstring)")
     }
 
-    return try await setDefaultDevice(byID: device.id, type: type)
+    return try await setDefaultDevice(for: device.id, type: type)
   }
 
   /// Cycles to the next available audio device of the specified type
@@ -194,7 +183,7 @@ public class AudioDeviceManager: AudioDeviceManaging {
       let nextDevice = devices[nextIndex]
 
       // Set the next device as default
-      return try await setDefaultDevice(byID: nextDevice.id, type: type)
+      return try await setDefaultDevice(for: nextDevice.id, type: type)
     }
   }
 

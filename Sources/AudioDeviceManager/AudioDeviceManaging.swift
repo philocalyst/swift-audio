@@ -13,19 +13,12 @@ public protocol AudioDeviceManaging {
   /// - Returns: The currently selected audio device
   func getCurrentDevice(type: AudioDeviceType) async throws -> AudioDevice
 
-  /// Sets the default audio device
-  /// - Parameters:
-  ///   - device: The device to set as default
-  ///   - type: The type of device to set
-  /// - Returns: The newly set device
-  func setDefaultDevice(_ device: AudioDevice, type: AudioDeviceType) async throws -> AudioDevice
-
   /// Sets the default audio device by its ID
   /// - Parameters:
   ///   - deviceID: The ID of the device to set as default
   ///   - type: The type of device to set
   /// - Returns: The newly set device
-  func setDefaultDevice(byID deviceID: AudioDeviceID, type: AudioDeviceType) async throws
+  func setDefaultDevice(for deviceID: AudioDeviceID, type: AudioDeviceType) async throws
     -> AudioDevice
 
   /// Sets the default audio device by its name
