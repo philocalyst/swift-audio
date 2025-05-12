@@ -2,24 +2,25 @@
 import PackageDescription
 
 let package = Package(
-  name: "AudioDeviceManager",
+  name: "SwiftAudio",
   platforms: [
     .macOS(.v12)
   ],
   products: [
     .library(
-      name: "AudioDeviceManager",
-      targets: ["AudioDeviceManager"])
+      name: "SwiftAudio",
+      targets: ["SwiftAudio"])
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.0")
   ],
   targets: [
     .target(
-      name: "AudioDeviceManager",
+      name: "SwiftAudio",
       dependencies: [
         .product(name: "ArgumentParser", package: "swift-argument-parser")
       ],
-      path: "Sources/AudioDeviceManager")
+      path: "SwiftAudio",
+    )
   ]
 )
