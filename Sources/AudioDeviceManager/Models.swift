@@ -115,4 +115,22 @@ extension AudioDevice {
         "{\"name\": \"\(name)\", \"type\": \"\(type.rawValue)\", \"id\": \"\(id)\", \"uid\": \"\(uid)\"}"
     }
   }
+  public func setVolume(level: Level) {
+    var propertyAddress = createPropertyAddress(
+      selector: kAudioDevicePropertyVolumeScalar, scope: self.type.scope)
+
+    var propertySize = UInt32(MemoryLayout<UInt32>.size)
+
+    var volume = level.value
+
+    // Apply the volume
+    let status = AudioObjectSetPropertyData(
+      self.id,
+      &propertyAddress,
+      0,
+      nil,
+      propertySize,
+      &volume
+    )
+  }
 }
