@@ -124,13 +124,13 @@ extension AudioDevice {
     return try await audioManger.setDefaultDevice(for: self.id, type: type)
   }
 
-  public func setVolume(level: Level) {
+  public func setVolume(level: Level) -> UInt8 {
     var propertyAddress = createPropertyAddress(
       selector: kAudioDevicePropertyVolumeScalar, scope: self.type.scope)
 
-    var propertySize = UInt32(MemoryLayout<UInt32>.size)
+    let propertySize = UInt32(MemoryLayout<UInt32>.size)
 
-    var volume = level.value
+    var volume = UInt32(level.value)
 
     // Apply the volume
     let status = AudioObjectSetPropertyData(
@@ -141,5 +141,11 @@ extension AudioDevice {
       propertySize,
       &volume
     )
+
+    guard status == noErr else {
+      throw AudioDeviceError.failedToSetVolume(self.id, status)
+    }
+
+    return volume
   }
 }
