@@ -60,6 +60,25 @@ public struct AudioDevice: Identifiable, Codable, Equatable, Hashable {
   }
 }
 
+/// Represents an audio level 1–100
+public struct Level {
+  private let level: Int8
+
+  /// The audio level value (1–100).
+  public var value: Int8 {
+    level
+  }
+
+  /// Creates a `Level` if `level` is between 1 and 100 inclusive.
+  /// Returns `nil` if the provided value is out of range.
+  public init?(level: Int8) {
+    guard (1...100).contains(level) else {
+      return nil
+    }
+    self.level = level
+  }
+}
+
 extension AudioDevice {
   /// Creates a formatted string representation based on the specified format
   /// - Parameter format: The desired output format
